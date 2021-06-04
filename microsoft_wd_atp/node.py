@@ -34,7 +34,7 @@ MM_2_WDATP_TYPE = {
     'domain': 'DomainName',
     'URL': 'Url'
 }
-WD_ATP_TIINDICATORS_ENDPOINT = 'https://api.securitycenter.windows.com/api/indicators/import'
+WD_ATP_TIINDICATORS_ENDPOINT = 'api.securitycenter.windows.com'
 
 class AuthConfigException(RuntimeError):
     pass
@@ -457,6 +457,7 @@ class OutputBatch(ActorBaseFT):
         self.tenant_id = self.config.get('tenant_id', None)
         self.action = self.config.get('action', 'Alert')
         self.severity = self.config.get('severity', None)
+        self.ioc_endpoint = self.config.get('ioc_endpoint', None)
 
         self.side_config_path = self.config.get('side_config', None)
         if self.side_config_path is None:
@@ -500,6 +501,11 @@ class OutputBatch(ActorBaseFT):
         if severity is not None:
             self.severity = severity
             LOG.info('{} - severity set'.format(self.name))
+
+        ioc_endpoint = sconfig.get('ioc_endpoint', WD_ATP_TIINDICATORS_ENDPOINT)
+        if ioc_endpoint is not None:
+            self.ioc_endpoint = "https://{}/api/indicators/import".format(ioc_endpoint)
+            LOG.info('{} - ioc_endpoint set'.format(self.name))
 
     def connect(self, inputs, output):
         output = False
@@ -554,7 +560,7 @@ class OutputBatch(ActorBaseFT):
         LOG.debug(message)
 
         result = requests.post(
-            WD_ATP_TIINDICATORS_ENDPOINT,
+            self.ioc_endpoint,
             headers={
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer {}'.format(token)
@@ -573,7 +579,7 @@ class OutputBatch(ActorBaseFT):
         # This output node doesn't check for this condition (although the error counters are correctly updated)
 
         result = result.json()
-        if not result or  '@odata.context' not in result or result['@odata.context'] != 'https://api.securitycenter.windows.com/api/$metadata#Collection(microsoft.windowsDefenderATP.api.ImportIndicatorResult)':
+        if not result or  '@odata.context' not in result or '/api/$metadata#Collection(microsoft.windowsDefenderATP.api.ImportIndicatorResult)' not in result['@odata.context']:
             raise WDATPResponseException('Unexpected response from WDATP API')
 
         if 'value' not in result:

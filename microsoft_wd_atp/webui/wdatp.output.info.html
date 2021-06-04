@@ -78,6 +78,13 @@
             </colgroup>
             <tbody>
                 <tr>
+                    <td>TI ENDPOINT URL</td>
+                    <td tooltip="set API endpoint" class="nodedetail-info-clickable" ng-click="sideConfig.setIocEndpoint()">
+                        <span ng-if="!sideConfig.ioc_endpoint"><em>Default</em></span>
+                        <span ng-if="sideConfig.ioc_endpoint">{{ sideConfig.ioc_endpoint }}</span>
+                    </td>
+                </tr>
+                <tr>
                     <td>CLIENT ID</td>
                     <td tooltip="set client id" class="nodedetail-info-clickable" ng-click="sideConfig.setClientID()">
                         <span ng-if="!sideConfig.client_id"><em>Not set</em></span>
