@@ -12,6 +12,7 @@ function MSFTWDATPSideConfigController($scope, MinemeldConfigService, MineMeldRu
     vm.tenant_id = undefined;
     vm.action = undefined;
     vm.severity = undefined;
+    vm.ioc_endpoint = undefined;
 
     vm.loadSideConfig = function() {
         var nodename = $scope.$parent.vm.nodename;
@@ -51,6 +52,12 @@ function MSFTWDATPSideConfigController($scope, MinemeldConfigService, MineMeldRu
             } else {
                 vm.severity = undefined;
             }
+
+            if (result.ioc_endpoint) {
+                vm.ioc_endpoint = result.ioc_endpoint;
+            } else {
+                vm.ioc_endpoint = undefined;
+            }
         }, (error) => {
             toastr.error('ERROR RETRIEVING NODE SIDE CONFIG: ' + error.status);
             vm.client_id = undefined;
@@ -58,6 +65,7 @@ function MSFTWDATPSideConfigController($scope, MinemeldConfigService, MineMeldRu
             vm.tenant_id = undefined;
             vm.action = undefined;
             vm.severity = undefined;
+            vm.ioc_endpoint = undefined;
         });
     };
 
@@ -80,6 +88,9 @@ function MSFTWDATPSideConfigController($scope, MinemeldConfigService, MineMeldRu
         }
         if (vm.severity) {
             side_config.severity = vm.severity;
+        }
+        if (vm.ioc_endpoint) {
+            side_config.ioc_endpoint = vm.ioc_endpoint;
         }
 
         return MinemeldConfigService.saveDataFile(
@@ -197,6 +208,28 @@ function MSFTWDATPSideConfigController($scope, MinemeldConfigService, MineMeldRu
             });
         })
     }
+
+    vm.setIocEndpoint = function() {
+        var mi = $modal.open({
+            templateUrl: '/extensions/webui/microsoftWDATPWebui/wdatp.output.sioc.modal.html',
+            controller: ['$modalInstance', MSFTWDATPIocEndpointController],
+            controllerAs: 'vm',
+            bindToController: true,
+            backdrop: 'static',
+            animation: false
+        });
+
+        mi.result.then((result) => {
+            vm.ioc_endpoint = result.ioc_endpoint;
+
+            return vm.saveSideConfig().then((result) => {
+                toastr.success('IOC ENDPOINT SET');
+                vm.loadSideConfig();
+            }, (error) => {
+                toastr.error('ERROR SETTING IOC ENDPOINT: ' + error.statusText);
+            });
+        });
+    };
 
     vm.loadSideConfig();
 }
@@ -340,6 +373,32 @@ function MSFTWDATPSeverityController($modalInstance) {
         $modalInstance.dismiss();
     };
 };
+
+function MSFTWDATPIocEndpointController($modalInstance) {
+    var vm = this;
+
+    vm.ioc_endpoint = undefined;
+
+    vm.valid = function() {
+        if (!vm.ioc_endpoint) {
+            return false;
+        }
+
+        return true;
+    };
+
+    vm.save = function() {
+        var result = {};
+
+        result.ioc_endpoint = vm.ioc_endpoint;
+
+        $modalInstance.close(result);
+    }
+
+    vm.cancel = function() {
+        $modalInstance.dismiss();
+    }
+}
 
 angular.module('microsoftWDATPWebui', [])
     .controller('MSFTWDATPSideConfigController', [

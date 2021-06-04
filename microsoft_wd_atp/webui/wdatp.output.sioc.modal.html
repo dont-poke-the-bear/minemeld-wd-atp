@@ -1,0 +1,20 @@
+<div class="modal-header">
+        <h1 class="modal-title">TI ENDPOINT URL</h1>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <form class="config-add-form form-horizontal m-t-xs">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">TI ENDPOINT URL</label>
+                    <div class="col-xs-6">
+                        <input type="text" ng-model="vm.ioc_endpoint" class="form-control" placeholder="TI Endpoint URL">
+                        <a href="https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/exposed-apis-list?view=o365-worldwide"><i>More Info</i></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-disabled="!vm.valid()" class="btn btn-primary btn-sm" type="button" ng-click="vm.save()">OK</button>
+        <button class="btn btn-warning btn-sm" type="button" ng-click="vm.cancel()">CANCEL</button>
+    </div>
