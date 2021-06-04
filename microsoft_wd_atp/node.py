@@ -504,7 +504,7 @@ class OutputBatch(ActorBaseFT):
 
         ioc_endpoint = sconfig.get('ioc_endpoint', WD_ATP_TIINDICATORS_ENDPOINT)
         if ioc_endpoint is not None:
-            self.ioc_endpoint = ioc_endpoint
+            self.ioc_endpoint = "https://{}/api/indicators/import".format(ioc_endpoint)
             LOG.info('{} - ioc_endpoint set'.format(self.name))
 
     def connect(self, inputs, output):
@@ -579,7 +579,7 @@ class OutputBatch(ActorBaseFT):
         # This output node doesn't check for this condition (although the error counters are correctly updated)
 
         result = result.json()
-        if not result or  '@odata.context' not in result or result['@odata.context'] != 'https://api.securitycenter.windows.com/api/$metadata#Collection(microsoft.windowsDefenderATP.api.ImportIndicatorResult)':
+        if not result or  '@odata.context' not in result or result['@odata.context'] != 'https://'+self.ioc_endpoint+'/api/$metadata#Collection(microsoft.windowsDefenderATP.api.ImportIndicatorResult)':
             raise WDATPResponseException('Unexpected response from WDATP API')
 
         if 'value' not in result:
