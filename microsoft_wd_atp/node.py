@@ -34,7 +34,7 @@ MM_2_WDATP_TYPE = {
     'domain': 'DomainName',
     'URL': 'Url'
 }
-WD_ATP_TIINDICATORS_ENDPOINT = 'https://api.securitycenter.windows.com/api/indicators/import'
+WD_ATP_TIINDICATORS_ENDPOINT = 'api.securitycenter.windows.com'
 
 class AuthConfigException(RuntimeError):
     pass
@@ -579,7 +579,7 @@ class OutputBatch(ActorBaseFT):
         # This output node doesn't check for this condition (although the error counters are correctly updated)
 
         result = result.json()
-        if not result or  '@odata.context' not in result or result['@odata.context'] != 'https://'+self.ioc_endpoint+'/api/$metadata#Collection(microsoft.windowsDefenderATP.api.ImportIndicatorResult)':
+        if not result or  '@odata.context' not in result or '/api/$metadata#Collection(microsoft.windowsDefenderATP.api.ImportIndicatorResult)' not in result['@odata.context']:
             raise WDATPResponseException('Unexpected response from WDATP API')
 
         if 'value' not in result:
