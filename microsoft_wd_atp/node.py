@@ -28,6 +28,7 @@ RESOURCE = 'https://securitycenter.onmicrosoft.com/windowsatpservice'
 ENDPOINT_URL = 'https://partnerstifrontend-eus-prd.trafficmanager.net/threatintel/info'
 
 MM_2_WDATP_TYPE = {
+    'md5': 'FileMd5',
     'sha1': 'FileSha1',
     'sha256': 'FileSha256',
     'IPv4': 'IpAddress',
