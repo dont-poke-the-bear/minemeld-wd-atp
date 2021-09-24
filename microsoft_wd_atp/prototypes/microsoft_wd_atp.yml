@@ -21,14 +21,15 @@ prototypes:
     config: {}
 
   outputBatch:
-    author: Palo Alto Networks TBD
+    author: Palo Alto Networks and Penn State Health
     class: microsoft_wd_atp.OutputBatch
-    development_status: EXPERIMENTAL
+    development_status: STABLE
     node_type: output
     indicator_types:
       - URL
       - IPv4
       - domain
+      - md5
       - sha1
       - sha256
     tags:
