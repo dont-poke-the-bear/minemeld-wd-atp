@@ -1,8 +1,7 @@
 {
-    "version": "0.5",
+    "version": "1.0",
     "name": "minemeld-wd-atp",
-    "author": "Palo Alto Networks",
-    "author_email": "techbizdev@paloaltonetworks.com",
+    "author": "Penn State Health",
     "description": "MineMeld Nodes for Microsoft WD-ATP API",
     "entry_points": {
         "minemeld_nodes": {
