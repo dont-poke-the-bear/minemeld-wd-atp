@@ -702,7 +702,8 @@ class OutputBatch(ActorBaseFT):
                 title=title,
                 description=description,
                 creationTimeDateTimeUtc=creation,
-                action=self.action
+                action=self.action,
+                generateAlert=True
             )
             if self.severity is not None:
                 d['severity'] = self.severity
