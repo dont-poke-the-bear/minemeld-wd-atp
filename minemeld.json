@@ -2,6 +2,7 @@
     "version": "1.0",
     "name": "minemeld-wd-atp",
     "author": "Penn State Health",
+    "author_email": "no-reply@no-reply.com",
     "description": "MineMeld Nodes for Microsoft WD-ATP API",
     "entry_points": {
         "minemeld_nodes": {
