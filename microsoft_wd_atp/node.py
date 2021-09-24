@@ -686,10 +686,10 @@ class OutputBatch(ActorBaseFT):
         creation = datetime.utcnow()
         creation = creation.isoformat() + 'Z'
 
-        expiration = datetime.utcnow() + timedelta(days=365)
-        if expired:
-            expiration = datetime.fromtimestamp(0)
-        expiration = expiration.isoformat() + 'Z' # expiration is always in UTC
+        #expiration = datetime.utcnow() + timedelta(days=365)
+        #if expired:
+        #    expiration = datetime.fromtimestamp(0)
+        #expiration = expiration.isoformat() + 'Z' # expiration is always in UTC
 
         result = []
         for i in indicators:
@@ -699,7 +699,7 @@ class OutputBatch(ActorBaseFT):
                 title=title,
                 description=description,
                 creationTimeDateTimeUtc=creation,
-                expirationTime=expiration,
+                #expirationTime=expiration,
                 action=self.action
             )
             if self.severity is not None:
