@@ -687,6 +687,10 @@ class OutputBatch(ActorBaseFT):
         creation = datetime.utcnow()
         creation = creation.isoformat() + 'Z'
 
+        # Set Action to Block and Remediate for Hash types based on fall '21 schema update
+        if "File" in type_ and self.action == 'Block':
+            self.action = 'BlockAndRemediate'
+
         #expiration = datetime.utcnow() + timedelta(days=365)
         #if expired:
         #    expiration = datetime.fromtimestamp(0)
