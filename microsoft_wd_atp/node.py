@@ -709,7 +709,7 @@ class OutputBatch(ActorBaseFT):
                 d['severity'] = self.severity
 
             if expired:
-                expiration = datetime.utcnow() + timedelta(seconds=60)
+                expiration = datetime.utcnow() + timedelta(seconds=300)
                 expiration = expiration.isoformat() + 'Z' # expiration is always in UTC
                 d['expirationTime'] = expiration
 
